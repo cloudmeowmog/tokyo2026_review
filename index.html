@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>東京旅行日誌</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Zen+Maru+Gothic:wght@400;500;700&family=Shippori+Mincho:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f5f0e8;
+    --paper-warm: #efe8d8;
+    --accent: #c0392b;
+    --accent-soft: #e74c3c22;
+    --gold: #b8860b;
+    --gold-soft: #b8860b18;
+    --timeline-line: #c9b99a;
+    --card-bg: #fffdf8;
+    --card-shadow: rgba(26, 26, 46, 0.08);
+    --text-secondary: #5a5a6e;
+    --tag-bg: #f0e6d3;
+    --divider: #e0d5c3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* ── Noise texture overlay ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ══════════════════════════════════════
+     HERO SECTION
+     ══════════════════════════════════════ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    background:
+      radial-gradient(ellipse at 30% 20%, #e8d5b8 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, #d4c4a8 0%, transparent 50%),
+      var(--paper);
+    padding: 2rem;
+  }
+
+  .hero-stamp {
+    width: 120px;
+    height: 120px;
+    border: 3px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    position: relative;
+    animation: stampIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation-delay: 0.3s;
+  }
+  .hero-stamp::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border: 1.5px dashed var(--accent);
+    border-radius: 50%;
+    opacity: 0.4;
+  }
+
+  .hero h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+    animation: fadeUp 0.8s ease both;
+    animation-delay: 0.5s;
+  }
+
+  .hero-sub {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: var(--text-secondary);
+    letter-spacing: 0.3em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease both;
+    animation-delay: 0.7s;
+  }
+
+  .hero-dates {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.6rem 1.8rem;
+    border: 1px solid var(--divider);
+    border-radius: 100px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    background: var(--card-bg);
+    animation: fadeUp 0.8s ease both;
+    animation-delay: 0.9s;
+  }
+  .hero-dates .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    animation: fadeUp 0.8s ease both 1.2s, float 2.5s ease-in-out infinite 2s;
+  }
+  .scroll-hint svg {
+    width: 20px;
+    stroke: var(--text-secondary);
+    stroke-width: 2;
+    fill: none;
+  }
+
+  /* ══════════════════════════════════════
+     DAY NAV
+     ══════════════════════════════════════ */
+  .day-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--paper);
+    border-bottom: 1px solid var(--divider);
+    display: flex;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 0.8rem 1rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: box-shadow 0.3s;
+  }
+  .day-nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+  .day-nav a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    transition: all 0.3s;
+    font-weight: 500;
+  }
+  .day-nav a:hover, .day-nav a.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* ══════════════════════════════════════
+     TIMELINE CONTAINER
+     ══════════════════════════════════════ */
+  .timeline-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem 6rem;
+    position: relative;
+  }
+
+  /* Center vertical line */
+  .timeline-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, var(--timeline-line) 5%, var(--timeline-line) 95%, transparent);
+    transform: translateX(-50%);
+  }
+
+  /* ── Day Header ── */
+  .day-header {
+    text-align: center;
+    padding: 4rem 0 2rem;
+    position: relative;
+    z-index: 2;
+  }
+  .day-header .day-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.7rem 2rem;
+    border-radius: 100px;
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+  }
+  .day-header .day-date {
+    display: block;
+    margin-top: 0.8rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+  }
+  .day-header .day-theme {
+    display: block;
+    margin-top: 0.4rem;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+  }
+
+  /* ── Timeline Entry ── */
+  .timeline-entry {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .timeline-entry.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Left side entry */
+  .timeline-entry.left .entry-content {
+    width: calc(50% - 40px);
+    margin-right: auto;
+    text-align: right;
+  }
+  .timeline-entry.left .entry-content .card { border-radius: 16px 16px 4px 16px; }
+
+  /* Right side entry */
+  .timeline-entry.right .entry-content {
+    width: calc(50% - 40px);
+    margin-left: auto;
+    text-align: left;
+  }
+  .timeline-entry.right .entry-content .card { border-radius: 16px 16px 16px 4px; }
+
+  /* Center dot */
+  .timeline-dot {
+    position: absolute;
+    left: 50%;
+    top: 1.5rem;
+    width: 16px;
+    height: 16px;
+    background: var(--paper);
+    border: 3px solid var(--timeline-line);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    transition: all 0.3s;
+  }
+  .timeline-entry:hover .timeline-dot {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 0 5px var(--accent-soft);
+  }
+
+  /* Time label on the line */
+  .entry-time {
+    position: absolute;
+    left: 50%;
+    top: 2.5rem;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background: var(--paper);
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 3;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--divider);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px var(--card-shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(26, 26, 46, 0.12);
+  }
+
+  .card-img {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    background: var(--tag-bg);
+    display: block;
+  }
+
+  /* Placeholder for images not yet uploaded */
+  .card-img-placeholder {
+    width: 100%;
+    aspect-ratio: 16/10;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    background:
+      linear-gradient(135deg, var(--tag-bg) 0%, var(--paper-warm) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--timeline-line);
+    font-size: 2.5rem;
+    border: 2px dashed var(--divider);
+  }
+
+  .card h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .card .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.7rem;
+  }
+  .timeline-entry.left .card .tags { justify-content: flex-end; }
+
+  .card .tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    background: var(--tag-bg);
+    border-radius: 100px;
+    color: var(--gold);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  .card p {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+  }
+
+  .card .rating {
+    margin-top: 0.6rem;
+    color: var(--gold);
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ══════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════ */
+  .site-footer {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--divider);
+    letter-spacing: 0.1em;
+  }
+  .site-footer .footer-stamp {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ══════════════════════════════════════
+     ANIMATIONS
+     ══════════════════════════════════════ */
+  @keyframes stampIn {
+    from { transform: scale(2) rotate(-15deg); opacity: 0; }
+    to { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* ══════════════════════════════════════
+     MOBILE RESPONSIVE
+     ══════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .timeline-wrapper::before {
+      left: 24px;
+    }
+    .timeline-entry.left .entry-content,
+    .timeline-entry.right .entry-content {
+      width: calc(100% - 56px);
+      margin-left: auto;
+      margin-right: 0;
+      text-align: left;
+    }
+    .timeline-entry.left .card .tags { justify-content: flex-start; }
+    .timeline-entry.left .entry-content .card,
+    .timeline-entry.right .entry-content .card {
+      border-radius: 16px 16px 16px 4px;
+    }
+    .timeline-dot {
+      left: 24px;
+    }
+    .entry-time {
+      left: 24px;
+    }
+    .day-header { text-align: left; padding-left: 56px; }
+    .day-nav { gap: 0.1rem; flex-wrap: wrap; }
+    .day-nav a { font-size: 0.75rem; padding: 0.3rem 0.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-stamp">東京</div>
+  <h1>東京旅行日誌</h1>
+  <p class="hero-sub">TOKYO TRAVEL JOURNAL</p>
+  <div class="hero-dates">
+    <span>2026.04.17</span>
+    <span class="dot"></span>
+    <span>2026.04.23</span>
+  </div>
+  <div class="scroll-hint">
+    <span>向下捲動</span>
+    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<!-- ═══════════ DAY NAV ═══════════ -->
+<nav class="day-nav" id="dayNav">
+  <a href="#day1">Day 1</a>
+  <a href="#day2">Day 2</a>
+  <a href="#day3">Day 3</a>
+  <a href="#day4">Day 4</a>
+  <a href="#day5">Day 5</a>
+  <a href="#day6">Day 6</a>
+  <a href="#day7">Day 7</a>
+</nav>
+
+<!-- ═══════════ TIMELINE ═══════════ -->
+<div class="timeline-wrapper">
+
+  <!-- ─────── DAY 1 ─────── -->
+  <div class="day-header" id="day1">
+    <span class="day-badge">📍 Day 1</span>
+    <span class="day-date">2026 / 04 / 17（五）</span>
+    <span class="day-theme">抵達・新宿初探</span>
+  </div>
+
+  <div class="timeline-entry left">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">15:00</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🛬</div>
+        <div class="tags"><span class="tag">交通</span></div>
+        <h3>抵達成田機場</h3>
+        <p>經過數小時飛行，終於踏上日本的土地。搭乘 N'EX 成田特快前往新宿。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-entry right">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">17:30</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🏨</div>
+        <div class="tags"><span class="tag">住宿</span></div>
+        <h3>入住飯店</h3>
+        <p>放下行李、稍作休息，準備展開東京探險。從窗戶望出去，新宿的霓虹燈已點亮整片天空。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-entry left">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">19:00</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🍜</div>
+        <div class="tags"><span class="tag">美食</span><span class="tag">拉麵</span></div>
+        <h3>新宿拉麵晚餐</h3>
+        <p>到新宿街頭尋找第一碗拉麵，濃郁的豚骨湯頭配上彈牙的麵條，完美的第一餐。</p>
+        <div class="rating">★★★★★</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── DAY 2 ─────── -->
+  <div class="day-header" id="day2">
+    <span class="day-badge">📍 Day 2</span>
+    <span class="day-date">2026 / 04 / 18（六）</span>
+    <span class="day-theme">淺草・秋葉原</span>
+  </div>
+
+  <div class="timeline-entry right">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">09:00</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">⛩️</div>
+        <div class="tags"><span class="tag">景點</span><span class="tag">寺廟</span></div>
+        <h3>淺草寺・雷門</h3>
+        <p>清晨的淺草寺人潮還不算多，紅色的雷門大燈籠在晨光中格外壯觀。沿著仲見世通逛了各式小店。</p>
+        <div class="rating">★★★★☆</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-entry left">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">12:00</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🍡</div>
+        <div class="tags"><span class="tag">美食</span><span class="tag">甜點</span></div>
+        <h3>仲見世通小吃</h3>
+        <p>人形燒、炸饅頭、抹茶冰淇淋⋯⋯一路吃不停。每一口都是回憶的味道。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-entry right">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">14:30</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🎮</div>
+        <div class="tags"><span class="tag">購物</span><span class="tag">動漫</span></div>
+        <h3>秋葉原電器街</h3>
+        <p>宅文化聖地！扭蛋機、動漫周邊、電玩遊戲⋯⋯走進這裡就很難空手出來。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── DAY 3 ─────── -->
+  <div class="day-header" id="day3">
+    <span class="day-badge">📍 Day 3</span>
+    <span class="day-date">2026 / 04 / 19（日）</span>
+    <span class="day-theme">原宿・澀谷・表參道</span>
+  </div>
+
+  <div class="timeline-entry left">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">10:00</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">⛩️</div>
+        <div class="tags"><span class="tag">景點</span><span class="tag">神社</span></div>
+        <h3>明治神宮</h3>
+        <p>穿過巨大的鳥居，走在參天古木的參道上，都市中的寧靜結界。</p>
+        <div class="rating">★★★★★</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-entry right">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">12:30</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🛍️</div>
+        <div class="tags"><span class="tag">逛街</span><span class="tag">潮流</span></div>
+        <h3>竹下通・原宿</h3>
+        <p>滿滿的年輕活力，各種潮流小店與可麗餅攤位，彷彿走進了彩色萬花筒。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-entry left">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">16:00</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🚶</div>
+        <div class="tags"><span class="tag">景點</span><span class="tag">地標</span></div>
+        <h3>澀谷十字路口</h3>
+        <p>站在 SHIBUYA SKY 俯瞰那個全世界最繁忙的十字路口，看著人潮如水流交織。</p>
+        <div class="rating">★★★★☆</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── DAY 4 ─────── -->
+  <div class="day-header" id="day4">
+    <span class="day-badge">📍 Day 4</span>
+    <span class="day-date">2026 / 04 / 20（一）</span>
+    <span class="day-theme">上野・日本橋・銀座</span>
+  </div>
+
+  <div class="timeline-entry right">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">09:30</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🌸</div>
+        <div class="tags"><span class="tag">景點</span><span class="tag">公園</span></div>
+        <h3>上野恩賜公園</h3>
+        <p>漫步在廣闊的上野公園中，美術館與博物館林立，文化氣息濃厚。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-entry left">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">13:00</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🏛️</div>
+        <div class="tags"><span class="tag">景點</span><span class="tag">歷史</span></div>
+        <h3>日本橋</h3>
+        <p>日本道路的起點、五街道的原點。橋上精緻的麒麟與獅子雕像訴說著百年歷史。</p>
+        <div class="rating">★★★★☆</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-entry right">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">17:00</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🌆</div>
+        <div class="tags"><span class="tag">購物</span><span class="tag">美食</span></div>
+        <h3>銀座漫步</h3>
+        <p>東京最優雅的購物街區，高級百貨與精品店櫛比鱗次。入夜後的銀座別有一番風情。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── DAY 5 ─────── -->
+  <div class="day-header" id="day5">
+    <span class="day-badge">📍 Day 5</span>
+    <span class="day-date">2026 / 04 / 21（二）</span>
+    <span class="day-theme">築地・台場・東京鐵塔</span>
+  </div>
+
+  <div class="timeline-entry left">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">07:30</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🐟</div>
+        <div class="tags"><span class="tag">美食</span><span class="tag">市場</span></div>
+        <h3>築地場外市場</h3>
+        <p>清晨的築地依然活力十足，新鮮的海鮮丼、玉子燒、烤扇貝⋯⋯味蕾的天堂。</p>
+        <div class="rating">★★★★★</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-entry right">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">14:00</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🌉</div>
+        <div class="tags"><span class="tag">景點</span><span class="tag">海灣</span></div>
+        <h3>台場海濱公園</h3>
+        <p>東京灣的微風、彩虹大橋的輪廓，遠處的天際線倒映在水面上。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-entry left">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">19:00</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🗼</div>
+        <div class="tags"><span class="tag">景點</span><span class="tag">夜景</span></div>
+        <h3>東京鐵塔夜景</h3>
+        <p>橘紅色的燈光在夜空中溫暖地亮著，經典中的經典，怎麼看都不膩。</p>
+        <div class="rating">★★★★★</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── DAY 6 ─────── -->
+  <div class="day-header" id="day6">
+    <span class="day-badge">📍 Day 6</span>
+    <span class="day-date">2026 / 04 / 22（三）</span>
+    <span class="day-theme">自由探索日</span>
+  </div>
+
+  <div class="timeline-entry right">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">整天</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🗺️</div>
+        <div class="tags"><span class="tag">自由行</span></div>
+        <h3>隨心漫遊</h3>
+        <p>沒有行程表的一天，跟著直覺走。也許重訪喜歡的地方，也許發現隱藏版的小巷風景。旅行最棒的部分，往往在計畫之外。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────── DAY 7 ─────── -->
+  <div class="day-header" id="day7">
+    <span class="day-badge">📍 Day 7</span>
+    <span class="day-date">2026 / 04 / 23（四）</span>
+    <span class="day-theme">收拾行囊・歸途</span>
+  </div>
+
+  <div class="timeline-entry left">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">10:00</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">🧳</div>
+        <div class="tags"><span class="tag">購物</span></div>
+        <h3>最後的採買</h3>
+        <p>把握最後的時間，在車站的伴手禮店補貨。東京芭娜娜、薯條三兄弟⋯⋯行李箱快裝不下了。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-entry right">
+    <div class="timeline-dot"></div>
+    <span class="entry-time">15:00</span>
+    <div class="entry-content">
+      <div class="card">
+        <div class="card-img-placeholder">✈️</div>
+        <div class="tags"><span class="tag">交通</span></div>
+        <h3>返程</h3>
+        <p>帶著滿滿的回憶與戰利品踏上歸途。再見了東京，我們下次見。</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end timeline-wrapper -->
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="site-footer">
+  <div class="footer-stamp">✦</div>
+  <p>東京旅行日誌 — 2026</p>
+  <p style="margin-top:0.3rem; opacity:0.6;">Built with ♥ & memories</p>
+</footer>
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+  // Scroll reveal for timeline entries
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.timeline-entry').forEach(el => observer.observe(el));
+
+  // Day nav active state
+  const nav = document.getElementById('dayNav');
+  const dayHeaders = document.querySelectorAll('.day-header');
+  const navLinks = nav.querySelectorAll('a');
+
+  function updateActiveNav() {
+    let current = '';
+    dayHeaders.forEach(h => {
+      if (window.scrollY >= h.offsetTop - 120) current = h.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+    nav.classList.toggle('scrolled', window.scrollY > 100);
+  }
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
+</script>
+</body>
+</html>
