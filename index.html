@@ -61,7 +61,15 @@
   .timeline-entry.right .entry-content .card { border-radius:16px 16px 16px 4px; }
   .timeline-dot { position:absolute; left:50%; top:1.5rem; width:16px; height:16px; background:var(--paper); border:3px solid var(--timeline-line); border-radius:50%; transform:translateX(-50%); z-index:3; transition:all .3s; }
   .timeline-entry:hover .timeline-dot { border-color:var(--accent); background:var(--accent); box-shadow:0 0 0 5px var(--accent-soft); }
-  .entry-time { position:absolute; left:50%; top:2.5rem; transform:translateX(-50%); font-size:.75rem; color:var(--text-secondary); background:var(--paper); padding:.1rem .5rem; border-radius:4px; white-space:nowrap; z-index:3; }
+
+  /* 時間標記隱藏 — 僅在編輯模式顯示 */
+  .entry-time { display: none; }
+  body.edit-mode .entry-time {
+    display: block;
+    position:absolute; left:50%; top:2.5rem; transform:translateX(-50%);
+    font-size:.75rem; color:var(--text-secondary); background:var(--paper);
+    padding:.1rem .5rem; border-radius:4px; white-space:nowrap; z-index:3;
+  }
 
   .card { background:var(--card-bg); border:1px solid var(--divider); padding:1.5rem; border-radius:16px; box-shadow:0 4px 24px var(--card-shadow); transition:transform .3s,box-shadow .3s; overflow:hidden; position:relative; }
   .card:hover { transform:translateY(-3px); box-shadow:0 8px 32px rgba(26,26,46,.12); }
@@ -78,7 +86,7 @@
   .site-footer { text-align:center; padding:3rem 1rem; color:var(--text-secondary); font-size:.8rem; border-top:1px solid var(--divider); letter-spacing:.1em; }
   .site-footer .footer-stamp { font-family:'Shippori Mincho',serif; font-size:1.5rem; color:var(--accent); margin-bottom:.5rem; }
 
-  /* Edit mode styles omitted for brevity - same as previous version */
+  /* Edit mode */
   .edit-banner { position:fixed; top:0; left:0; right:0; z-index:300; text-align:center; background:var(--edit-hl); color:white; padding:.4rem; font-size:.8rem; letter-spacing:.1em; transform:translateY(-100%); transition:transform .3s; }
   body.edit-mode .edit-banner { transform:translateY(0); }
   body.edit-mode .day-nav { top:30px; }
@@ -141,11 +149,12 @@
     .timeline-entry.left .entry-content,.timeline-entry.right .entry-content { width:calc(100% - 56px); margin-left:auto; margin-right:0; text-align:left; }
     .timeline-entry.left .card .tags,.timeline-entry.left .rating-editor { justify-content:flex-start; }
     .timeline-entry.left .entry-content .card,.timeline-entry.right .entry-content .card { border-radius:16px 16px 16px 4px; }
-    .timeline-dot { left:24px; } .entry-time { left:24px; }
+    .timeline-dot { left:24px; }
     .day-header { text-align:left; padding-left:56px; }
     .day-nav { gap:.1rem; flex-wrap:wrap; } .day-nav a { font-size:.75rem; padding:.3rem .7rem; }
     .edit-toolbar { right:auto; left:1rem; bottom:1rem; flex-wrap:wrap; max-width:calc(100vw - 5rem); }
     .edit-fab { bottom:1rem; right:1rem; }
+    body.edit-mode .entry-time { left:24px; }
   }
 </style>
 </head>
@@ -175,11 +184,22 @@
   <div class="day-header" id="day1">
     <span class="day-badge">📍 <span data-editable>Day 1</span></span>
     <span class="day-date" data-editable>2026 / 04 / 17（五）</span>
-    <span class="day-theme" data-editable>抵達・鈴芽的起點</span>
+    <span class="day-theme" data-editable>出發・抵達・鈴芽的起點</span>
     <div class="day-header-actions"><button onclick="delDay(this)">刪除此天</button></div>
   </div>
 
   <div class="timeline-entry right">
+    <div class="timeline-dot"></div><span class="entry-time" data-editable>10:00</span>
+    <div class="entry-content"><div class="card">
+      <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
+      <div class="card-img-placeholder" onclick="upImg(this)">🛫</div>
+      <div class="tags"><span class="tag transport" onclick="rmTag(this)">交通</span><span class="tag" onclick="rmTag(this)">出發</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
+      <h3 data-editable>桃園國際機場出發</h3>
+      <p data-editable>帶著期待的心情，全家從桃園機場出發，搭乘長榮航空前往東京成田！</p>
+    </div></div>
+  </div>
+
+  <div class="timeline-entry left">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>13:25</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -190,7 +210,7 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry left">
+  <div class="timeline-entry right">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>14:30</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -201,7 +221,7 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry right">
+  <div class="timeline-entry left">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>16:00</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -212,7 +232,7 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry left">
+  <div class="timeline-entry right">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>17:45</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -223,7 +243,7 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry right">
+  <div class="timeline-entry left">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>18:30</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -234,7 +254,7 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry left">
+  <div class="timeline-entry right">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>19:00</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -251,11 +271,11 @@
   <div class="day-header" id="day2">
     <span class="day-badge">📍 <span data-editable>Day 2</span></span>
     <span class="day-date" data-editable>2026 / 04 / 18（六）</span>
-    <span class="day-theme" data-editable>台場鋼彈 & 豐洲 teamLab</span>
+    <span class="day-theme" data-editable>豐洲・台場鋼彈・teamLab</span>
     <div class="day-header-actions"><button onclick="delDay(this)">刪除此天</button></div>
   </div>
 
-  <div class="timeline-entry right">
+  <div class="timeline-entry left">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>09:00</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -263,17 +283,6 @@
       <div class="tags"><span class="tag" onclick="rmTag(this)">市場</span><span class="tag" onclick="rmTag(this)">小吃</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
       <h3 data-editable>豐洲市場 / 千客萬來</h3>
       <p data-editable>先在豐洲逛逛，吃點玉子燒與海鮮小點心墊胃。</p>
-    </div></div>
-  </div>
-
-  <div class="timeline-entry left">
-    <div class="timeline-dot"></div><span class="entry-time" data-editable>11:50</span>
-    <div class="entry-content"><div class="card">
-      <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
-      <div class="card-img-placeholder" onclick="upImg(this)">🍔</div>
-      <div class="tags"><span class="tag" onclick="rmTag(this)">美食</span><span class="tag" onclick="rmTag(this)">午餐</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
-      <h3 data-editable>台場 DiverCity 午餐</h3>
-      <p data-editable>DiverCity 商場用餐，吃飽走到廣場直接看 13:00 鋼彈變身秀。</p>
     </div></div>
   </div>
 
@@ -302,17 +311,6 @@
   </div>
 
   <div class="timeline-entry right">
-    <div class="timeline-dot"></div><span class="entry-time" data-editable>19:30</span>
-    <div class="entry-content"><div class="card">
-      <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
-      <div class="card-img-placeholder" onclick="upImg(this)">🍽️</div>
-      <div class="tags"><span class="tag" onclick="rmTag(this)">美食</span><span class="tag" onclick="rmTag(this)">晚餐</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
-      <h3 data-editable>豐洲 LaLaport 晚餐</h3>
-      <p data-editable>teamLab 後步行至 LaLaport 用晚餐，3F 還有玩具店與扭蛋機。</p>
-    </div></div>
-  </div>
-
-  <div class="timeline-entry left">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>21:00</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -329,11 +327,11 @@
   <div class="day-header" id="day3">
     <span class="day-badge">📍 <span data-editable>Day 3</span></span>
     <span class="day-date" data-editable>2026 / 04 / 19（日）</span>
-    <span class="day-theme" data-editable>淺草・晴空塔・Pokémon</span>
+    <span class="day-theme" data-editable>淺草・晴空塔・Pokémon Frienda</span>
     <div class="day-header-actions"><button onclick="delDay(this)">刪除此天</button></div>
   </div>
 
-  <div class="timeline-entry right">
+  <div class="timeline-entry left">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>09:00</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -345,19 +343,31 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry left">
+  <div class="timeline-entry right">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>11:00</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
-      <div class="card-img-placeholder" onclick="upImg(this)">🚶</div>
-      <div class="tags"><span class="tag" onclick="rmTag(this)">散步</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
-      <h3 data-editable>隅田川步道 → 晴空塔</h3>
-      <p data-editable>沿著隅田川散步前往晴空塔，步行約 20 分鐘，沿途風景優美。</p>
+      <div class="card-img-placeholder" onclick="upImg(this)">🚃</div>
+      <div class="tags"><span class="tag transport" onclick="rmTag(this)">東武晴空塔線</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
+      <h3 data-editable>搭東武晴空塔線前往晴空塔</h3>
+      <p data-editable>從淺草站搭乘東武晴空塔線，直達晴空塔站（とうきょうスカイツリー駅），方便快速。</p>
+    </div></div>
+  </div>
+
+  <div class="timeline-entry left">
+    <div class="timeline-dot"></div><span class="entry-time" data-editable>11:30</span>
+    <div class="entry-content"><div class="card">
+      <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
+      <div class="card-img-placeholder" onclick="upImg(this)">🗼</div>
+      <div class="tags"><span class="tag" onclick="rmTag(this)">景點</span><span class="tag" onclick="rmTag(this)">展望台</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
+      <h3 data-editable>晴空塔美景</h3>
+      <p data-editable>世界最高電波塔，從展望台俯瞰整個東京都，天氣好時可遠眺富士山！</p>
+      <div class="rating">★★★★★</div>
     </div></div>
   </div>
 
   <div class="timeline-entry right">
-    <div class="timeline-dot"></div><span class="entry-time" data-editable>12:00</span>
+    <div class="timeline-dot"></div><span class="entry-time" data-editable>12:30</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
       <div class="card-img-placeholder" onclick="upImg(this)">🍱</div>
@@ -379,13 +389,14 @@
   </div>
 
   <div class="timeline-entry right">
-    <div class="timeline-dot"></div><span class="entry-time" data-editable>17:30</span>
+    <div class="timeline-dot"></div><span class="entry-time" data-editable>18:00</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
-      <div class="card-img-placeholder" onclick="upImg(this)">🍣</div>
-      <div class="tags"><span class="tag" onclick="rmTag(this)">美食</span><span class="tag" onclick="rmTag(this)">晚餐</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
-      <h3 data-editable>淺草晚餐</h3>
-      <p data-editable>藏壽司 ROX 店（全球最大旗艦店）或一蘭拉麵、淺草今半壽喜燒等。</p>
+      <div class="card-img-placeholder" onclick="upImg(this)">🎮</div>
+      <div class="tags"><span class="tag" onclick="rmTag(this)">遊戲</span><span class="tag" onclick="rmTag(this)">寶可夢</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
+      <h3 data-editable>秋葉原 Pokémon Frienda</h3>
+      <p data-editable>前往秋葉原體驗 Pokémon Frienda 遊戲！</p>
+      <div class="rating">★★★★★</div>
     </div></div>
   </div>
 
@@ -393,11 +404,10 @@
     <div class="timeline-dot"></div><span class="entry-time" data-editable>20:00</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
-      <div class="card-img-placeholder" onclick="upImg(this)">🎮</div>
-      <div class="tags"><span class="tag" onclick="rmTag(this)">遊戲</span><span class="tag" onclick="rmTag(this)">寶可夢</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
-      <h3 data-editable>秋葉原 Pokémon Friends</h3>
-      <p data-editable>回程前往秋葉原，體驗 Pokémon Friends 遊戲！</p>
-      <div class="rating">★★★★★</div>
+      <div class="card-img-placeholder" onclick="upImg(this)">🌙</div>
+      <div class="tags"><span class="tag" onclick="rmTag(this)">逛街</span><span class="tag" onclick="rmTag(this)">夜遊</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
+      <h3 data-editable>夜訪阿美橫町</h3>
+      <p data-editable>回到上野，趁夜色逛逛阿美橫町商店街，挖寶零食、藥妝與各式小物。</p>
     </div></div>
   </div>
 
@@ -480,7 +490,7 @@
     <div class="day-header-actions"><button onclick="delDay(this)">刪除此天</button></div>
   </div>
 
-  <div class="timeline-entry right">
+  <div class="timeline-entry left">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>09:00</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -492,7 +502,7 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry left">
+  <div class="timeline-entry right">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>12:00</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -503,7 +513,7 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry right">
+  <div class="timeline-entry left">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>13:30</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -514,7 +524,7 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry left">
+  <div class="timeline-entry right">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>15:00</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -526,7 +536,7 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry right">
+  <div class="timeline-entry left">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>17:30</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -538,7 +548,7 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry left">
+  <div class="timeline-entry right">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>19:00</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -559,7 +569,7 @@
     <div class="day-header-actions"><button onclick="delDay(this)">刪除此天</button></div>
   </div>
 
-  <div class="timeline-entry right">
+  <div class="timeline-entry left">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>10:00</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -570,7 +580,7 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry left">
+  <div class="timeline-entry right">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>11:20</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -581,7 +591,7 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry right">
+  <div class="timeline-entry left">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>12:25</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -592,7 +602,7 @@
     </div></div>
   </div>
 
-  <div class="timeline-entry left">
+  <div class="timeline-entry right">
     <div class="timeline-dot"></div><span class="entry-time" data-editable>14:25</span>
     <div class="entry-content"><div class="card">
       <div class="card-actions"><button class="btn-mv" onclick="mv(this,-1)">↑</button><button class="btn-mv" onclick="mv(this,1)">↓</button><button class="btn-del" onclick="del(this)">✕</button></div>
@@ -623,8 +633,7 @@
 <input type="file" id="fi" accept="image/*" style="display:none">
 
 <script>
-let E=false, imgTarget=null;
-const fi=document.getElementById('fi');
+let E=false,imgTarget=null;const fi=document.getElementById('fi');
 function toggle(){E=!E;document.body.classList.toggle('edit-mode',E);document.getElementById('fab').textContent=E?'👁️':'✏️';document.querySelectorAll('[data-editable]').forEach(el=>el.contentEditable=E);if(E)initRatings();buildNav();}
 function upImg(el){if(!E)return;imgTarget=el;fi.click();}
 fi.onchange=function(){if(!this.files[0]||!imgTarget)return;const r=new FileReader();r.onload=function(e){const img=document.createElement('img');img.className='card-img';img.src=e.target.result;img.alt='照片';img.onclick=function(){upImg(this)};imgTarget.replaceWith(img)};r.readAsDataURL(this.files[0]);this.value='';};
