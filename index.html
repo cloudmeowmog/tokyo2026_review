@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
-<head>
+<html lang="zh-TW"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>東京親子寶可夢之旅</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Zen+Maru+Gothic:wght@400;500;700&family=Shippori+Mincho:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&amp;family=Zen+Maru+Gothic:wght@400;500;700&amp;family=Shippori+Mincho:wght@400;600;800&amp;display=swap" rel="stylesheet">
 <style>
   :root{--ink:#1a1a2e;--paper:#f5f0e8;--paper-warm:#efe8d8;--accent:#c0392b;--accent-soft:#e74c3c22;--gold:#b8860b;--timeline-line:#c9b99a;--card-bg:#fffdf8;--card-shadow:rgba(26,26,46,0.08);--text-secondary:#5a5a6e;--tag-bg:#f0e6d3;--divider:#e0d5c3;--edit-hl:#3498db;--edit-bg:#3498db12;--danger:#e74c3c}
   *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
@@ -51,37 +50,27 @@
   .card{background:var(--card-bg);border:1px solid var(--divider);padding:1.5rem;border-radius:16px;box-shadow:0 4px 24px var(--card-shadow);transition:transform .3s,box-shadow .3s;overflow:hidden;position:relative}
   .card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(26,26,46,.12)}
 
-  /* ═══ CAROUSEL ═══ */
+  /* Carousel */
   .carousel{position:relative;width:100%;aspect-ratio:16/10;border-radius:10px;margin-bottom:1rem;overflow:hidden;background:linear-gradient(135deg,var(--tag-bg),var(--paper-warm))}
   .carousel-track{display:flex;width:100%;height:100%;transition:transform .35s ease}
   .carousel-slide{min-width:100%;height:100%;position:relative;display:flex;align-items:center;justify-content:center}
   .carousel-slide img{width:100%;height:100%;object-fit:cover}
   .carousel-slide .placeholder-icon{font-size:2.5rem;color:var(--timeline-line)}
-
-  /* Placeholder when no photos */
   .carousel.empty{border:2px dashed var(--divider)}
-
-  /* Nav arrows */
   .carousel-prev,.carousel-next{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.85);border:none;cursor:pointer;font-size:.9rem;display:none;align-items:center;justify-content:center;z-index:5;box-shadow:0 2px 8px rgba(0,0,0,.15);transition:all .2s;color:var(--ink)}
   .carousel-prev{left:8px}
   .carousel-next{right:8px}
   .carousel-prev:hover,.carousel-next:hover{background:white;transform:translateY(-50%) scale(1.1)}
   .carousel.multi .carousel-prev,.carousel.multi .carousel-next{display:flex}
-
-  /* Dots */
   .carousel-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:none;gap:5px;z-index:5}
   .carousel.multi .carousel-dots{display:flex}
   .carousel-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5);border:none;cursor:pointer;padding:0;transition:all .2s}
   .carousel-dot.active{background:white;transform:scale(1.3)}
 
-  /* Edit mode: add photo button & delete photo */
-  .carousel-add-photo{display:none;position:absolute;bottom:8px;right:8px;width:30px;height:30px;border-radius:50%;background:var(--edit-hl);color:white;border:none;cursor:pointer;font-size:1.1rem;z-index:6;box-shadow:0 2px 8px rgba(0,0,0,.2);align-items:center;justify-content:center;transition:all .2s}
-  .carousel-add-photo:hover{transform:scale(1.1)}
+  .carousel-add-photo{display:none;position:absolute;bottom:8px;right:8px;width:30px;height:30px;border-radius:50%;background:var(--edit-hl);color:white;border:none;cursor:pointer;font-size:1.1rem;z-index:6;box-shadow:0 2px 8px rgba(0,0,0,.2);align-items:center;justify-content:center}
   body.edit-mode .carousel-add-photo{display:flex}
-
   .carousel-del-photo{display:none;position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;background:var(--danger);color:white;border:none;cursor:pointer;font-size:.7rem;z-index:6;box-shadow:0 2px 8px rgba(0,0,0,.2);align-items:center;justify-content:center}
   body.edit-mode .carousel-del-photo{display:flex}
-
   body.edit-mode .carousel.empty{cursor:pointer}
   body.edit-mode .carousel.empty::after{content:'點擊上傳照片';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--edit-hl);font-size:.9rem;opacity:0;transition:opacity .2s;pointer-events:none;z-index:4}
   body.edit-mode .carousel.empty:hover::after{opacity:1}
@@ -155,7 +144,6 @@
 
   .drag-handle{display:none;position:absolute;top:.6rem;left:.6rem;width:28px;height:28px;border-radius:50%;background:var(--card-bg);border:1px solid var(--divider);cursor:grab;z-index:10;align-items:center;justify-content:center;font-size:.75rem;color:var(--text-secondary);box-shadow:0 2px 8px rgba(0,0,0,.1);user-select:none}
   .drag-handle:hover{background:var(--edit-hl);color:white;border-color:var(--edit-hl)}
-  .drag-handle:active{cursor:grabbing}
   body.edit-mode .drag-handle{display:flex}
   .timeline-entry.dragging{opacity:.4!important;transform:scale(.95)!important}
   .timeline-entry.drag-over-above{border-top:3px solid var(--edit-hl);padding-top:1rem}
@@ -179,503 +167,141 @@
   }
 </style>
 </head>
-<body>
+<body class="">
 
-<div class="edit-banner">✏️ 編輯模式 — 拖曳 ⠿ 排序・點擊文字修改・照片支援多張輪播</div>
-<div class="save-toast" id="toast"></div>
+
+
 
 <section class="hero">
   <div class="hero-stamp">東京</div>
-  <h1 data-editable>東京親子寶可夢之旅</h1>
-  <p class="hero-sub" data-editable>TOKYO FAMILY POKÉMON TRIP</p>
-  <div class="hero-dates"><span data-editable>2026.04.17</span><span class="dot"></span><span data-editable>2026.04.22</span></div>
+  <h1>東京親子寶可夢之旅</h1>
+  <p class="hero-sub">TOKYO FAMILY POKÉMON TRIP</p>
+  <div class="hero-dates"><span>2026.04.17</span><span class="dot"></span><span>2026.04.22</span></div>
   <div class="hero-hotel">🏨 住宿：<strong>Stayme THE HOTEL Ueno</strong></div>
-  <div class="scroll-hint"><span>向下捲動</span><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+  <div class="scroll-hint"><span>向下捲動</span><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
 </section>
 
-<nav class="day-nav" id="dayNav"></nav>
+<nav class="day-nav scrolled" id="dayNav"><a href="#day1" class="">Day 1</a><a href="#day2" class="">Day 2</a><a href="#day3" class="">Day 3</a><a href="#day4" class="">Day 4</a><a href="#day5" class="">Day 5</a><a href="#day6" class="active">Day 6</a></nav>
 
 <div class="timeline-wrapper" id="tw">
 
-  <!-- ═══ DAY 1 ═══ -->
-  <div class="day-header" id="day1">
-    <span class="day-badge">📍 <span data-editable>Day 1</span></span>
-    <span class="day-date" data-editable>2026 / 04 / 17（五）</span>
-    <span class="day-theme" data-editable>出發・抵達・鈴芽的起點</span>
-    <div class="day-header-actions"><button onclick="delDay(this)">刪除此天</button></div>
-  </div>
+  <!-- DAY 1 -->
+  <div class="day-header" id="day1"><span class="day-badge">📍 <span>Day 1</span></span><span class="day-date">2026 / 04 / 17（五）</span><span class="day-theme">出發・抵達・鈴芽的起點</span></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>10:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div>
-    <div class="carousel empty" data-emoji="🛫"></div>
-    <div class="tags"><span class="tag transport" onclick="rmTag(this)">交通</span><span class="tag" onclick="rmTag(this)">出發</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
-    <h3 data-editable>桃園國際機場出發</h3><p data-editable>帶著期待的心情，全家從桃園機場出發，搭乘長榮航空前往東京成田！</p>
-  </div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">10:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🛫"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🛫</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag transport">交通</span><span class="tag">出發</span></div><h3>桃園國際機場出發</h3><p>帶著期待的心情，全家從桃園機場出發，搭乘長榮航空前往東京成田！</p></div></div></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>13:25</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div>
-    <div class="carousel empty" data-emoji="✈️"></div>
-    <div class="tags"><span class="tag transport" onclick="rmTag(this)">交通</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
-    <h3 data-editable>抵達成田機場 T1</h3><p data-editable>長榮航空抵達，前往 B1 辦理兒童版西瓜卡、領取 Skyliner 車票。</p>
-  </div></div></div>
+  <div class="timeline-entry visible left"><div class="timeline-dot"></div><span class="entry-time">13:25</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="✈️"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">✈️</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag transport">交通</span></div><h3>抵達成田機場 T1</h3><p>長榮航空抵達，前往 B1 辦理兒童版西瓜卡、領取 Skyliner 車票。</p></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>14:30</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div>
-    <div class="carousel empty" data-emoji="🚅"></div>
-    <div class="tags"><span class="tag transport" onclick="rmTag(this)">Skyliner 41分</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
-    <h3 data-editable>搭乘 Skyliner</h3><p data-editable>成田機場 → 京成上野站，41 分鐘直達市區。</p>
-  </div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">14:30</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🚅"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🚅</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag transport">Skyliner 41分</span></div><h3>搭乘 Skyliner</h3><p>成田機場 → 京成上野站，41 分鐘直達市區。</p></div></div></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>16:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div>
-    <div class="carousel empty" data-emoji="🏨"></div>
-    <div class="tags"><span class="tag" onclick="rmTag(this)">住宿</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
-    <h3 data-editable>Check-in Stayme Ueno</h3><p data-editable>放下行李，從京成上野站步行約 10 分鐘抵達飯店。</p>
-  </div></div></div>
+  <div class="timeline-entry visible left"><div class="timeline-dot"></div><span class="entry-time">16:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🏨"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🏨</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">住宿</span></div><h3>Check-in Stayme Ueno</h3><p>放下行李，從京成上野站步行約 10 分鐘抵達飯店。</p></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>17:45</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div>
-    <div class="carousel empty" data-emoji="📸"></div>
-    <div class="tags"><span class="tag" onclick="rmTag(this)">聖地巡禮</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
-    <h3 data-editable>御茶之水 聖橋</h3><p data-editable>《鈴芽之旅》經典場景，三色電車交錯的拍攝聖地。</p>
-  </div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">17:45</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="📸"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">📸</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">聖地巡禮</span></div><h3>御茶之水 聖橋</h3><p>《鈴芽之旅》經典場景，三色電車交錯的拍攝聖地。</p></div></div></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>18:30</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div>
-    <div class="carousel empty" data-emoji="⚡"></div>
-    <div class="tags"><span class="tag" onclick="rmTag(this)">逛街</span><span class="tag" onclick="rmTag(this)">動漫</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
-    <h3 data-editable>秋葉原</h3><p data-editable>日本次文化中心！Yodobashi Akiba 吃喝逛一站滿足。</p>
-  </div></div></div>
+  <div class="timeline-entry visible left"><div class="timeline-dot"></div><span class="entry-time">18:30</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="⚡"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">⚡</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">逛街</span><span class="tag">動漫</span></div><h3><h3 style="outline: rgb(52, 152, 219) dashed 2px; background-image: none; background-position: 0% 0%; background-size: auto; background-repeat: repeat; background-attachment: scroll; background-origin: padding-box; background-clip: border-box;">秋葉原 Yodobashi Akiba</h3></h3><p>日本次文化中心！Yodobashi Akiba 吃喝逛一站滿足。</p></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>19:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div>
-    <div class="carousel empty" data-emoji="🍛"></div>
-    <div class="tags"><span class="tag" onclick="rmTag(this)">美食</span><span class="tag" onclick="rmTag(this)">晚餐</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div>
-    <h3 data-editable>秋葉原晚餐</h3><p data-editable>Yodobashi 8F 美食街，吃飽直攻 6F 打寶可夢機台！</p>
-  </div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">19:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🍛"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🍛</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">美食</span><span class="tag">晚餐</span></div><h3>秋葉原晚餐</h3><p>Yodobashi 8F 美食街，吃飽直攻 6F 打寶可夢機台！</p></div></div></div>
 
-  <div class="add-btn"><button onclick="addEntry(this)">＋ 新增景點</button></div>
+  
 
-  <!-- ═══ DAY 2 ═══ -->
-  <div class="day-header" id="day2"><span class="day-badge">📍 <span data-editable>Day 2</span></span><span class="day-date" data-editable>2026 / 04 / 18（六）</span><span class="day-theme" data-editable>豐洲・台場鋼彈・teamLab</span><div class="day-header-actions"><button onclick="delDay(this)">刪除此天</button></div></div>
+  <!-- DAY 2 -->
+  <div class="day-header" id="day2"><span class="day-badge">📍 <span>Day 2</span></span><span class="day-date">2026 / 04 / 18（六）</span><span class="day-theme">豐洲・台場鋼彈・teamLab</span></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>09:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🏮"></div><div class="tags"><span class="tag" onclick="rmTag(this)">市場</span><span class="tag" onclick="rmTag(this)">小吃</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>豐洲市場 / 千客萬來</h3><p data-editable>先在豐洲逛逛，吃點玉子燒與海鮮小點心墊胃。</p></div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">09:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🏮"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🏮</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">市場</span><span class="tag">小吃</span></div><h3>豐洲市場 / 千客萬來</h3><p>先在豐洲逛逛，吃點玉子燒與海鮮小點心墊胃。</p></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>13:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🤖"></div><div class="tags"><span class="tag" onclick="rmTag(this)">景點</span><span class="tag" onclick="rmTag(this)">鋼彈</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>獨角獸鋼彈 變身秀</h3><p data-editable>DiverCity 廣場前實物大鋼彈，獨角獸模式→毀滅模式！</p><div class="rating">★★★★★</div></div></div></div>
+  <div class="timeline-entry visible left"><div class="timeline-dot"></div><span class="entry-time">13:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🤖"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🤖</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">景點</span><span class="tag">鋼彈</span></div><h3><span style="font-size: 1.15rem; text-align: left;">台場 Diver City&nbsp;</span>獨角獸鋼彈 變身秀</h3><p>DiverCity 廣場前實物大鋼彈，獨角獸模式→毀滅模式！</p><div class="rating">★★★★★</div></div></div></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>17:30</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="✨"></div><div class="tags"><span class="tag" onclick="rmTag(this)">景點</span><span class="tag" onclick="rmTag(this)">需預約</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>teamLab Planets</h3><p data-editable>赤腳進入的水中光影美術館，夢幻沉浸式體驗。</p><div class="rating">★★★★★</div></div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">00:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="📍"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">📍</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"></div><h3><h3 style="outline: rgb(52, 152, 219) dashed 2px; background-image: none; background-position: 0% 0%; background-size: auto; background-repeat: repeat; background-attachment: scroll; background-origin: padding-box; background-clip: border-box;">台場 Diver City</h3></h3><p>在這裡寫下回顧⋯⋯</p><div class="rating"></div></div></div></div><div class="timeline-entry visible left"><div class="timeline-dot"></div><span class="entry-time">17:30</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="✨"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">✨</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">景點</span><span class="tag">需預約</span></div><h3><span style="font-size: 1.15rem;">豐洲</span><span style="font-size: 1.15rem;">&nbsp;</span>teamLab Planets</h3><p>赤腳進入的水中光影美術館，夢幻沉浸式體驗。</p><div class="rating">★★★★★</div></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>21:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🧁"></div><div class="tags"><span class="tag" onclick="rmTag(this)">美食</span><span class="tag" onclick="rmTag(this)">甜點</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>秋葉原 可麗餅</h3><p data-editable>回程經過秋葉原，買一份可麗餅當宵夜甜點！</p></div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">21:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🧁"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🧁</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">美食</span><span class="tag">甜點</span></div><h3>秋葉原 可麗餅</h3><p>回程經過秋葉原，買一份可麗餅當宵夜甜點！</p></div></div></div>
 
-  <div class="add-btn"><button onclick="addEntry(this)">＋ 新增景點</button></div>
+  
 
-  <!-- ═══ DAY 3 ═══ -->
-  <div class="day-header" id="day3"><span class="day-badge">📍 <span data-editable>Day 3</span></span><span class="day-date" data-editable>2026 / 04 / 19（日）</span><span class="day-theme" data-editable>淺草・晴空塔・Pokémon Frienda</span><div class="day-header-actions"><button onclick="delDay(this)">刪除此天</button></div></div>
+  <!-- DAY 3 -->
+  <div class="day-header" id="day3"><span class="day-badge">📍 <span>Day 3</span></span><span class="day-date">2026 / 04 / 19（日）</span><span class="day-theme">淺草・晴空塔・Pokémon Frienda</span></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>09:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🏮"></div><div class="tags"><span class="tag" onclick="rmTag(this)">景點</span><span class="tag" onclick="rmTag(this)">傳統文化</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>淺草寺・雷門</h3><p data-editable>巨大紅燈籠是東京象徵，沿仲見世通吃人形燒、仙貝。建議 9 點前抵達拍照。</p><div class="rating">★★★★★</div></div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">09:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🏮"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🏮</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">景點</span><span class="tag">傳統文化</span></div><h3>淺草寺・雷門</h3><p>巨大紅燈籠是東京象徵，沿仲見世通吃人形燒、仙貝。</p><div class="rating">★★★★★</div></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>11:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🚃"></div><div class="tags"><span class="tag transport" onclick="rmTag(this)">東武晴空塔線</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>搭東武晴空塔線前往晴空塔</h3><p data-editable>從淺草站搭乘東武晴空塔線，直達晴空塔站，方便快速。</p></div></div></div>
+  <div class="timeline-entry visible left"><div class="timeline-dot"></div><span class="entry-time">11:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🚃"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🚃</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag transport">東武晴空塔線</span></div><h3>搭東武晴空塔線前往晴空塔</h3><p>從淺草站搭乘東武晴空塔線，直達晴空塔站。</p></div></div></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>11:30</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🗼"></div><div class="tags"><span class="tag" onclick="rmTag(this)">景點</span><span class="tag" onclick="rmTag(this)">展望台</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>晴空塔美景</h3><p data-editable>世界最高電波塔，從展望台俯瞰整個東京都，天氣好時可遠眺富士山！</p><div class="rating">★★★★★</div></div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">12:30</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🍱"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🍱</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">美食</span><span class="tag">午餐</span></div><h3>晴空塔 午餐</h3><p>六厘舍沾麵、根室花丸壽司、利久牛舌等多選擇。</p></div></div></div><div class="timeline-entry visible left"><div class="timeline-dot"></div><span class="entry-time">11:30</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🗼"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🗼</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">景點</span><span class="tag">展望台</span></div><h3>晴空塔美景</h3><p>世界最高電波塔，從展望台俯瞰整個東京都！</p><div class="rating">★★★★★</div></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>12:30</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🍱"></div><div class="tags"><span class="tag" onclick="rmTag(this)">美食</span><span class="tag" onclick="rmTag(this)">午餐</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>晴空塔 Solamachi 午餐</h3><p data-editable>六厘舍沾麵、根室花丸壽司、利久牛舌等多選擇。</p></div></div></div>
+  
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>13:30</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🐾"></div><div class="tags"><span class="tag" onclick="rmTag(this)">寶可夢</span><span class="tag" onclick="rmTag(this)">購物</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>晴空塔寶可夢中心</h3><p data-editable>Solamachi 4F，烈空坐鎮店的寶可夢中心，旁邊有寶可夢機台。</p></div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">13:30</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🐾"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🐾</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">寶可夢</span><span class="tag">購物</span></div><h3>晴空塔寶可夢中心</h3><p>Solamachi 4F，烈空坐鎮店的寶可夢中心。</p></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>18:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🎮"></div><div class="tags"><span class="tag" onclick="rmTag(this)">遊戲</span><span class="tag" onclick="rmTag(this)">寶可夢</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>秋葉原 Pokémon Frienda</h3><p data-editable>前往秋葉原體驗 Pokémon Frienda 遊戲！</p><div class="rating">★★★★★</div></div></div></div>
+  <div class="timeline-entry visible left"><div class="timeline-dot"></div><span class="entry-time">00:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="📍"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">📍</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"></div><h3><h3 style="outline: rgb(52, 152, 219) dashed 2px; background-image: none; background-position: 0% 0%; background-size: auto; background-repeat: repeat; background-attachment: scroll; background-origin: padding-box; background-clip: border-box;">晴空塔 勝博殿豬排</h3></h3><p>在這裡寫下回顧⋯⋯</p><div class="rating"></div></div></div></div><div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">18:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🎮"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🎮</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">遊戲</span><span class="tag">寶可夢</span></div><h3>秋葉原 Pokémon Frienda</h3><p>前往秋葉原體驗 Pokémon Frienda 遊戲！</p><div class="rating">★★★★★</div></div></div></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>20:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🌙"></div><div class="tags"><span class="tag" onclick="rmTag(this)">逛街</span><span class="tag" onclick="rmTag(this)">夜遊</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>夜訪阿美橫町</h3><p data-editable>回到上野，趁夜色逛逛阿美橫町商店街，挖寶零食、藥妝與各式小物。</p></div></div></div>
+  <div class="timeline-entry visible left"><div class="timeline-dot"></div><span class="entry-time">20:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🌙"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🌙</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">逛街</span><span class="tag">夜遊</span></div><h3>夜訪阿美橫町</h3><p>回到上野，趁夜色逛逛阿美橫町商店街。</p></div></div></div>
 
-  <div class="add-btn"><button onclick="addEntry(this)">＋ 新增景點</button></div>
+  
 
-  <!-- ═══ DAY 4 ═══ -->
-  <div class="day-header" id="day4"><span class="day-badge">📍 <span data-editable>Day 4</span></span><span class="day-date" data-editable>2026 / 04 / 20（一）</span><span class="day-theme" data-editable>豐洲再探・台場・銀座・日本橋</span><div class="day-header-actions"><button onclick="delDay(this)">刪除此天</button></div></div>
+  <!-- DAY 4 -->
+  <div class="day-header" id="day4"><span class="day-badge">📍 <span>Day 4</span></span><span class="day-date">2026 / 04 / 20（一）</span><span class="day-theme">豐洲再探・台場・銀座・日本橋</span></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>09:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🐟"></div><div class="tags"><span class="tag" onclick="rmTag(this)">市場</span><span class="tag" onclick="rmTag(this)">美食</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>豐洲市場再探</h3><p data-editable>第二次造訪豐洲市場，品嚐上次沒吃到的美食！</p></div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">09:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🐟"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🐟</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">市場</span><span class="tag">美食</span></div><h3>豐洲市場再探</h3><p>第二次造訪豐洲市場，品嚐上次沒吃到的美食！</p></div></div></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>12:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🍳"></div><div class="tags"><span class="tag" onclick="rmTag(this)">美食</span><span class="tag" onclick="rmTag(this)">午餐</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>台場蘋果樹蛋包飯</h3><p data-editable>Aqua City 5F「ポムの樹」，知名蛋包飯專賣店。</p><div class="rating">★★★★☆</div></div></div></div>
+  <div class="timeline-entry visible left"><div class="timeline-dot"></div><span class="entry-time">12:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🍳"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🍳</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">美食</span><span class="tag">午餐</span></div><h3><h3 style="outline: rgb(52, 152, 219) dashed 2px; background-image: none; background-position: 0% 0%; background-size: auto; background-repeat: repeat; background-attachment: scroll; background-origin: padding-box; background-clip: border-box;">台場AQUA CiTY ODAIBA&nbsp;蘋果樹蛋包飯</h3></h3><p>Aqua City 5F「ポムの樹」，知名蛋包飯專賣店。</p><div class="rating">★★★★☆</div></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>14:30</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="✏️"></div><div class="tags"><span class="tag" onclick="rmTag(this)">文具</span><span class="tag" onclick="rmTag(this)">體驗</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>銀座伊東屋 Itoya</h3><p data-editable>銀座地標文具店，12 層樓全是文具天堂！</p><div class="rating">★★★★★</div></div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">14:30</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="✏️"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">✏️</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">文具</span><span class="tag">體驗</span></div><h3>銀座伊東屋 Itoya</h3><p>銀座地標文具店，12 層樓全是文具天堂！</p><div class="rating">★★★★★</div></div></div></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>16:30</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🐾"></div><div class="tags"><span class="tag" onclick="rmTag(this)">寶可夢</span><span class="tag" onclick="rmTag(this)">購物</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>日本橋寶可夢中心 Tokyo DX</h3><p data-editable>高島屋 5F，東京規模最大的旗艦寶可夢中心。</p><div class="rating">★★★★★</div></div></div></div>
+  <div class="timeline-entry visible left"><div class="timeline-dot"></div><span class="entry-time">16:30</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🐾"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🐾</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">寶可夢</span><span class="tag">購物</span></div><h3>日本橋寶可夢中心 Tokyo DX</h3><p>高島屋 5F，東京規模最大的旗艦寶可夢中心。</p><div class="rating">★★★★★</div></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>19:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🥬"></div><div class="tags"><span class="tag" onclick="rmTag(this)">美食</span><span class="tag" onclick="rmTag(this)">晚餐</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>秋葉原 涮乃葉</h3><p data-editable>涮涮鍋吃到飽！適合全家大小。</p><div class="rating">★★★★☆</div></div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">19:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🥬"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🥬</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">美食</span><span class="tag">晚餐</span></div><h3>秋葉原 涮乃葉</h3><p>涮涮鍋吃到飽！適合全家大小。</p><div class="rating">★★★★☆</div></div></div></div>
 
-  <div class="add-btn"><button onclick="addEntry(this)">＋ 新增景點</button></div>
+  
 
-  <!-- ═══ DAY 5 ═══ -->
-  <div class="day-header" id="day5"><span class="day-badge">📍 <span data-editable>Day 5</span></span><span class="day-date" data-editable>2026 / 04 / 21（二）</span><span class="day-theme" data-editable>築地・澀谷・新宿</span><div class="day-header-actions"><button onclick="delDay(this)">刪除此天</button></div></div>
+  <!-- DAY 5 -->
+  <div class="day-header" id="day5"><span class="day-badge">📍 <span>Day 5</span></span><span class="day-date">2026 / 04 / 21（二）</span><span class="day-theme">築地・澀谷・新宿</span></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>09:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🐟"></div><div class="tags"><span class="tag" onclick="rmTag(this)">市場</span><span class="tag" onclick="rmTag(this)">早餐</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>築地場外市場</h3><p data-editable>東京的廚房！狐狸屋牛雜、山長玉子燒⋯⋯味蕾的天堂。</p><div class="rating">★★★★★</div></div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">09:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🐟"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🐟</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">市場</span><span class="tag">早餐</span></div><h3>築地場外市場</h3><p>東京的廚房！味蕾的天堂。</p><div class="rating">★★★★★</div></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>12:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🎮"></div><div class="tags"><span class="tag" onclick="rmTag(this)">寶可夢</span><span class="tag" onclick="rmTag(this)">購物</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>澀谷 PARCO 寶可夢中心</h3><p data-editable>PARCO 6F，最潮的寶可夢中心！</p></div></div></div>
+  <div class="timeline-entry visible left"><div class="timeline-dot"></div><span class="entry-time">12:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🎮"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🎮</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">寶可夢</span><span class="tag">購物</span></div><h3>澀谷 PARCO</h3><p>PARCO 6F，最潮的寶可夢中心！</p></div></div></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>13:30</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🍽️"></div><div class="tags"><span class="tag" onclick="rmTag(this)">美食</span><span class="tag" onclick="rmTag(this)">午餐</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>澀谷午餐</h3><p data-editable>吃飽直上 SHIBUYA SKY。</p></div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">15:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🏙️"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🏙️</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">景點</span><span class="tag">需預約</span></div><h3>SHIBUYA SKY</h3><p>360 度露天展望台，絕美！</p><div class="rating">★★★★★</div></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>15:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🏙️"></div><div class="tags"><span class="tag" onclick="rmTag(this)">景點</span><span class="tag" onclick="rmTag(this)">需預約</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>SHIBUYA SKY</h3><p data-editable>360 度露天展望台，絕美！</p><div class="rating">★★★★★</div></div></div></div>
+  
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>17:30</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🍜"></div><div class="tags"><span class="tag" onclick="rmTag(this)">美食</span><span class="tag" onclick="rmTag(this)">拉麵</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>澀谷 一蘭拉麵</h3><p data-editable>獨立包廂座位小朋友超喜歡。</p><div class="rating">★★★★☆</div></div></div></div>
+  <div class="timeline-entry visible left"><div class="timeline-dot"></div><span class="entry-time">17:30</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🍜"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🍜</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">美食</span><span class="tag">拉麵</span></div><h3>澀谷 一蘭拉麵</h3><p>獨立包廂座位小朋友超喜歡。</p><div class="rating">★★★★☆</div></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>19:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🐈"></div><div class="tags"><span class="tag" onclick="rmTag(this)">景點</span><span class="tag" onclick="rmTag(this)">科技</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>新宿 3D 貓</h3><p data-editable>新宿東口 4K 彎曲螢幕，巨大三花貓探頭打招呼。</p></div></div></div>
+  <div class="timeline-entry visible right"><div class="timeline-dot"></div><span class="entry-time">19:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🐈"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🐈</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">景點</span><span class="tag">科技</span></div><h3>新宿 3D 貓</h3><p>新宿東口 4K 彎曲螢幕，巨大三花貓探頭打招呼。</p></div></div></div>
 
-  <div class="add-btn"><button onclick="addEntry(this)">＋ 新增景點</button></div>
+  
 
-  <!-- ═══ DAY 6 ═══ -->
-  <div class="day-header" id="day6"><span class="day-badge">📍 <span data-editable>Day 6</span></span><span class="day-date" data-editable>2026 / 04 / 22（三）</span><span class="day-theme" data-editable>返台</span><div class="day-header-actions"><button onclick="delDay(this)">刪除此天</button></div></div>
+  <!-- DAY 6 -->
+  <div class="day-header" id="day6"><span class="day-badge">📍 <span>Day 6</span></span><span class="day-date">2026 / 04 / 22（三）</span><span class="day-theme">返台</span></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>10:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="🧳"></div><div class="tags"><span class="tag" onclick="rmTag(this)">退房</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>Check-out・前往機場</h3><p data-editable>退房後搭 Skyliner 前往成田機場。</p></div></div></div>
+  <div class="timeline-entry right visible"><div class="timeline-dot"></div><span class="entry-time">10:00</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="🧳"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">🧳</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">退房</span></div><h3>Check-out・前往機場</h3><p>退房後搭 Skyliner 前往成田機場。</p></div></div></div>
 
-  <div class="timeline-entry right"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>12:25</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="✈️"></div><div class="tags"><span class="tag" onclick="rmTag(this)">機場</span><span class="tag" onclick="rmTag(this)">美食</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>成田機場 最後一餐</h3><p data-editable>推薦「とみ田」沾麵。把握最後時間買伴手禮！</p></div></div></div>
+  <div class="timeline-entry left visible"><div class="timeline-dot"></div><span class="entry-time">12:25</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="✈️"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">✈️</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag">機場</span><span class="tag">美食</span></div><h3><h3 style="outline: rgb(52, 152, 219) dashed 2px; background-image: none; background-position: 0% 0%; background-size: auto; background-repeat: repeat; background-attachment: scroll; background-origin: padding-box; background-clip: border-box;">成田機場 すし京辰</h3></h3><p>推薦「とみ田」沾麵。把握最後時間買伴手禮！</p></div></div></div>
 
-  <div class="timeline-entry left"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable>14:25</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="✈️"></div><div class="tags"><span class="tag transport" onclick="rmTag(this)">長榮 BR197</span><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable>起飛返台</h3><p data-editable>帶著滿滿的回憶與戰利品踏上歸途。再見了東京！</p></div></div></div>
+  <div class="timeline-entry right visible"><div class="timeline-dot"></div><span class="entry-time">14:25</span><div class="entry-content"><div class="card"><div class="carousel empty" data-emoji="✈️"><div class="carousel-track"><div class="carousel-slide"><span class="placeholder-icon">✈️</span></div></div><button class="carousel-prev">‹</button><button class="carousel-next">›</button><div class="carousel-dots"></div></div><div class="tags"><span class="tag transport">長榮 BR197</span></div><h3>起飛返台</h3><p>帶著滿滿的回憶與戰利品踏上歸途。再見了東京！</p></div></div></div>
 
-  <div class="add-btn"><button onclick="addEntry(this)">＋ 新增景點</button></div>
-  <div class="add-btn" id="addDayBtn"><button onclick="showModal()">＋ 新增一天</button></div>
+  
+  
 </div>
 
-<footer class="site-footer"><div class="footer-stamp">✦</div><p>東京親子寶可夢之旅 — 2026</p><p style="margin-top:.3rem;opacity:.6">Built with ♥ & memories</p></footer>
+<footer class="site-footer"><div class="footer-stamp">✦</div><p>東京親子寶可夢之旅 — 2026</p><p style="margin-top:.3rem;opacity:.6">Built with ♥ &amp; memories</p></footer>
 
-<button class="edit-fab" id="fab" onclick="toggle()">✏️</button>
-<div class="edit-toolbar">
-  <button onclick="save()">💾 暫存</button><div class="sep"></div>
-  <button onclick="load()">📂 讀取</button><div class="sep"></div>
-  <button onclick="exportHTML()">📥 匯出</button>
-</div>
-<div class="modal-overlay" id="mo"><div class="modal" id="mc"></div></div>
-<input type="file" id="fi" accept="image/*" multiple style="display:none">
 
-<script>
-/* ══════════════════════════════════════
-   STATE
-   ══════════════════════════════════════ */
-let E=false, dragEl=null, currentCarousel=null;
-const fi=document.getElementById('fi');
 
-/* ── Edit toggle ── */
-function toggle(){
-  E=!E;
-  document.body.classList.toggle('edit-mode',E);
-  document.getElementById('fab').textContent=E?'👁️':'✏️';
-  document.querySelectorAll('[data-editable]').forEach(el=>el.contentEditable=E);
-  if(E){initRatings();initDrag();}
-  initAllCarousels();
-  buildNav();
-}
 
-/* ══════════════════════════════════════
-   CAROUSEL — Multi-photo support
-   ══════════════════════════════════════ */
-function initAllCarousels(){
-  document.querySelectorAll('.carousel').forEach(c=>{
-    if(c.dataset.init) return;
-    c.dataset.init='1';
-    buildCarousel(c);
-  });
-}
 
-function buildCarousel(c){
-  const images=Array.from(c.querySelectorAll('.carousel-slide img')).map(img=>img.src);
-  const emoji=c.dataset.emoji||'📍';
-  c.innerHTML='';
 
-  // Track
-  const track=document.createElement('div');
-  track.className='carousel-track';
 
-  if(images.length===0){
-    // Placeholder slide
-    const slide=document.createElement('div');
-    slide.className='carousel-slide';
-    slide.innerHTML=`<span class="placeholder-icon">${emoji}</span>`;
-    track.appendChild(slide);
-    c.classList.add('empty');
-  } else {
-    c.classList.remove('empty');
-    images.forEach((src,i)=>{
-      const slide=document.createElement('div');
-      slide.className='carousel-slide';
-      const img=document.createElement('img');
-      img.src=src; img.alt='照片';
-      slide.appendChild(img);
-      // Delete button per photo
-      const delBtn=document.createElement('button');
-      delBtn.className='carousel-del-photo';
-      delBtn.textContent='✕';
-      delBtn.onclick=(e)=>{e.stopPropagation();delPhoto(c,i);};
-      slide.appendChild(delBtn);
-      track.appendChild(slide);
-    });
-  }
-  c.appendChild(track);
 
-  // Multi class
-  if(images.length>1) c.classList.add('multi');
-  else c.classList.remove('multi');
 
-  // Arrows
-  const prev=document.createElement('button');
-  prev.className='carousel-prev'; prev.textContent='‹';
-  prev.onclick=(e)=>{e.stopPropagation();slideCarousel(c,-1);};
-  c.appendChild(prev);
-
-  const next=document.createElement('button');
-  next.className='carousel-next'; next.textContent='›';
-  next.onclick=(e)=>{e.stopPropagation();slideCarousel(c,1);};
-  c.appendChild(next);
-
-  // Dots
-  const dots=document.createElement('div');
-  dots.className='carousel-dots';
-  images.forEach((_,i)=>{
-    const dot=document.createElement('button');
-    dot.className='carousel-dot'+(i===0?' active':'');
-    dot.onclick=(e)=>{e.stopPropagation();goToSlide(c,i);};
-    dots.appendChild(dot);
-  });
-  c.appendChild(dots);
-
-  // Add photo button
-  const addBtn=document.createElement('button');
-  addBtn.className='carousel-add-photo';
-  addBtn.textContent='+';
-  addBtn.onclick=(e)=>{e.stopPropagation();triggerPhotoUpload(c);};
-  c.appendChild(addBtn);
-
-  // Click empty carousel to upload
-  c.onclick=function(e){
-    if(!E) return;
-    if(c.classList.contains('empty')){
-      triggerPhotoUpload(c);
-    }
-  };
-
-  c.dataset.idx='0';
-}
-
-function slideCarousel(c,dir){
-  const count=c.querySelectorAll('.carousel-slide').length;
-  let idx=parseInt(c.dataset.idx||0)+dir;
-  if(idx<0) idx=count-1;
-  if(idx>=count) idx=0;
-  goToSlide(c,idx);
-}
-
-function goToSlide(c,idx){
-  c.dataset.idx=idx;
-  const track=c.querySelector('.carousel-track');
-  track.style.transform=`translateX(-${idx*100}%)`;
-  c.querySelectorAll('.carousel-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
-}
-
-function triggerPhotoUpload(c){
-  currentCarousel=c;
-  fi.click();
-}
-
-fi.onchange=function(){
-  if(!this.files.length||!currentCarousel) return;
-  const c=currentCarousel;
-  const existingImgs=Array.from(c.querySelectorAll('.carousel-slide img')).map(img=>img.src);
-
-  let loaded=0;
-  const total=this.files.length;
-  const newSrcs=[];
-
-  Array.from(this.files).forEach(file=>{
-    const r=new FileReader();
-    r.onload=function(e){
-      newSrcs.push(e.target.result);
-      loaded++;
-      if(loaded===total){
-        // Rebuild carousel with all images
-        const allSrcs=[...existingImgs,...newSrcs];
-        rebuildWithImages(c,allSrcs);
-      }
-    };
-    r.readAsDataURL(file);
-  });
-  this.value='';
-};
-
-function rebuildWithImages(c,srcs){
-  c.removeAttribute('data-init');
-  c.innerHTML='';
-  const track=document.createElement('div');
-  track.className='carousel-track';
-  srcs.forEach(src=>{
-    const slide=document.createElement('div');
-    slide.className='carousel-slide';
-    const img=document.createElement('img');
-    img.src=src; img.alt='照片';
-    slide.appendChild(img);
-    track.appendChild(slide);
-  });
-  c.appendChild(track);
-  c.classList.remove('empty');
-  buildCarousel(c);
-  // Go to last added
-  goToSlide(c,srcs.length-1);
-}
-
-function delPhoto(c,idx){
-  const imgs=Array.from(c.querySelectorAll('.carousel-slide img')).map(img=>img.src);
-  imgs.splice(idx,1);
-  c.removeAttribute('data-init');
-  c.innerHTML='';
-  if(imgs.length===0){
-    c.classList.add('empty');
-  }
-  const track=document.createElement('div');
-  track.className='carousel-track';
-  if(imgs.length===0){
-    const slide=document.createElement('div');
-    slide.className='carousel-slide';
-    slide.innerHTML=`<span class="placeholder-icon">${c.dataset.emoji||'📍'}</span>`;
-    track.appendChild(slide);
-  } else {
-    imgs.forEach(src=>{
-      const slide=document.createElement('div');
-      slide.className='carousel-slide';
-      const img=document.createElement('img');
-      img.src=src; img.alt='照片';
-      slide.appendChild(img);
-      track.appendChild(slide);
-    });
-  }
-  c.appendChild(track);
-  buildCarousel(c);
-}
-
-/* ══════════════════════════════════════
-   DRAG & DROP
-   ══════════════════════════════════════ */
-function initDrag(){
-  document.querySelectorAll('.drag-handle').forEach(h=>{
-    if(h.dataset.bound) return; h.dataset.bound='1';
-    h.addEventListener('dragstart',onDS);
-    h.addEventListener('dragend',onDE);
-  });
-  document.querySelectorAll('.timeline-entry').forEach(e=>{
-    if(e.dataset.db) return; e.dataset.db='1';
-    e.addEventListener('dragover',onDO);
-    e.addEventListener('dragleave',onDL);
-    e.addEventListener('drop',onDR);
-  });
-}
-function onDS(e){if(!E){e.preventDefault();return;}dragEl=this.closest('.timeline-entry');dragEl.classList.add('dragging');e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain','');}
-function onDE(){if(dragEl)dragEl.classList.remove('dragging');dragEl=null;clrDI();}
-function onDO(e){e.preventDefault();if(!dragEl||this===dragEl)return;clrDI();const r=this.getBoundingClientRect();this.classList.add(e.clientY<r.top+r.height/2?'drag-over-above':'drag-over-below');}
-function onDL(){this.classList.remove('drag-over-above','drag-over-below');}
-function onDR(e){e.preventDefault();if(!dragEl||this===dragEl)return;const t=this,p=t.parentNode,r=t.getBoundingClientRect();if(e.clientY<r.top+r.height/2)p.insertBefore(dragEl,t);else p.insertBefore(dragEl,t.nextSibling);clrDI();dragEl.classList.remove('dragging');dragEl=null;reAlt();}
-function clrDI(){document.querySelectorAll('.drag-over-above,.drag-over-below').forEach(e=>e.classList.remove('drag-over-above','drag-over-below'));}
-
-function reAlt(){
-  const tw=document.getElementById('tw');
-  let count=0;
-  Array.from(tw.children).forEach(ch=>{
-    if(ch.classList.contains('day-header')){count=0;}
-    else if(ch.classList.contains('timeline-entry')){
-      ch.classList.remove('left','right');
-      ch.classList.add(count%2===0?'right':'left');
-      count++;
-    }
-  });
-}
-
-/* ══════════════════════════════════════
-   ENTRY / DAY CRUD
-   ══════════════════════════════════════ */
-function del(b){if(confirm('刪除此景點？')){const en=b.closest('.timeline-entry');en.style.opacity='0';setTimeout(()=>{en.remove();reAlt();},300);}}
-
-function addEntry(b){
-  const ab=b.closest('.add-btn');
-  const ce=E?' contenteditable="true"':'';
-  const h=`<div class="timeline-entry right visible"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable${ce}>00:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="📍"></div><div class="tags"><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable${ce}>新景點</h3><p data-editable${ce}>在這裡寫下回顧⋯⋯</p><div class="rating"></div><div class="rating-editor" data-r="0"></div></div></div></div>`;
-  ab.insertAdjacentHTML('beforebegin',h);
-  if(E){initRatings();initDrag();}
-  initAllCarousels();
-  reAlt();
-  obs(ab.previousElementSibling);
-}
-
-function delDay(b){if(!confirm('刪除這一天？'))return;const h=b.closest('.day-header');let n=h.nextElementSibling;while(n&&!n.classList.contains('day-header')&&n.id!=='addDayBtn'){const r=n;n=n.nextElementSibling;r.remove();}h.remove();buildNav();}
-
-function showModal(){const c=document.querySelectorAll('.day-header').length+1;document.getElementById('mc').innerHTML=`<h3>新增一天</h3><label>名稱</label><input id="ml" value="Day ${c}"><label>日期</label><input id="md" placeholder="2026 / 04 / 24（五）"><label>主題</label><input id="mt" placeholder="鎌倉一日遊"><div class="modal-actions"><button class="btn-cancel" onclick="closeM()">取消</button><button class="btn-ok" onclick="confirmDay()">新增</button></div>`;document.getElementById('mo').classList.add('show');}
-function closeM(){document.getElementById('mo').classList.remove('show');}
-document.getElementById('mo').onclick=function(e){if(e.target===this)closeM();};
-
-function confirmDay(){const l=document.getElementById('ml').value||'New Day';const d=document.getElementById('md').value||'';const t=document.getElementById('mt').value||'';const c=document.querySelectorAll('.day-header').length+1;const id='day'+c;const ce=E?' contenteditable="true"':'';const h=`<div class="day-header" id="${id}"><span class="day-badge">📍 <span data-editable${ce}>${l}</span></span><span class="day-date" data-editable${ce}>${d}</span><span class="day-theme" data-editable${ce}>${t}</span><div class="day-header-actions"><button onclick="delDay(this)">刪除此天</button></div></div><div class="timeline-entry right visible"><div class="drag-handle" draggable="true">⠿</div><div class="timeline-dot"></div><span class="entry-time" data-editable${ce}>09:00</span><div class="entry-content"><div class="card"><div class="card-actions"><button class="btn-del" onclick="del(this)">✕</button></div><div class="carousel empty" data-emoji="📍"></div><div class="tags"><button class="add-tag-btn" onclick="addTag(this)">+</button></div><h3 data-editable${ce}>新景點</h3><p data-editable${ce}>在這裡寫下回顧⋯⋯</p><div class="rating"></div><div class="rating-editor" data-r="0"></div></div></div></div><div class="add-btn"><button onclick="addEntry(this)">＋ 新增景點</button></div>`;document.getElementById('addDayBtn').insertAdjacentHTML('beforebegin',h);if(E){initRatings();initDrag();}initAllCarousels();closeM();buildNav();}
-
-/* ══════════════════════════════════════
-   TAGS & RATINGS
-   ══════════════════════════════════════ */
-function rmTag(el){if(E)el.remove();}
-function addTag(b){const n=prompt('標籤名稱：');if(!n)return;const s=document.createElement('span');s.className='tag';s.textContent=n;s.onclick=function(){rmTag(this)};b.before(s);}
-
-function initRatings(){document.querySelectorAll('.rating-editor').forEach(ed=>{if(ed.dataset.init)return;ed.dataset.init='1';let r=parseInt(ed.dataset.r)||0;ed.innerHTML='';for(let i=1;i<=5;i++){const b=document.createElement('button');b.textContent=i<=r?'★':'☆';b.className=i<=r?'on':'';b.onclick=()=>{r=i;ed.dataset.r=i;updR(ed,i);const rd=ed.closest('.card').querySelector('.rating');rd.textContent='★'.repeat(i)+'☆'.repeat(5-i);};ed.appendChild(b);}});}
-function updR(ed,r){ed.querySelectorAll('button').forEach((b,i)=>{b.textContent=i<r?'★':'☆';b.className=i<r?'on':'';});}
-
-/* ══════════════════════════════════════
-   NAV
-   ══════════════════════════════════════ */
-function buildNav(){const nav=document.getElementById('dayNav');nav.innerHTML='';document.querySelectorAll('.day-header').forEach(h=>{const lb=h.querySelector('[data-editable]');const a=document.createElement('a');a.href='#'+h.id;a.textContent=lb?lb.textContent:h.id;nav.appendChild(a);});updateNav();}
-function updateNav(){const nav=document.getElementById('dayNav');const hs=document.querySelectorAll('.day-header');const as=nav.querySelectorAll('a');let cur='';hs.forEach(h=>{if(scrollY>=h.offsetTop-120)cur=h.id;});as.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));nav.classList.toggle('scrolled',scrollY>100);}
-addEventListener('scroll',updateNav,{passive:true});
-
-/* ══════════════════════════════════════
-   SAVE / LOAD / EXPORT
-   ══════════════════════════════════════ */
-function save(){const tw=document.getElementById('tw');tw.querySelectorAll('[contenteditable]').forEach(el=>el.removeAttribute('contenteditable'));const d={hero:document.querySelector('.hero').innerHTML,tl:tw.innerHTML};localStorage.setItem('tj',JSON.stringify(d));if(E)tw.querySelectorAll('[data-editable]').forEach(el=>el.contentEditable='true');toast('已暫存');}
-
-function load(){const raw=localStorage.getItem('tj');if(!raw){toast('沒有暫存資料');return;}if(!confirm('載入暫存？'))return;const d=JSON.parse(raw);document.querySelector('.hero').innerHTML=d.hero;document.getElementById('tw').innerHTML=d.tl;
-  // Reset all carousels
-  document.querySelectorAll('.carousel').forEach(c=>c.removeAttribute('data-init'));
-  initAllCarousels();
-  buildNav();initObs();
-  if(E){document.querySelectorAll('[data-editable]').forEach(el=>el.contentEditable='true');initRatings();initDrag();}
-  toast('已讀取');
-}
-
-function exportHTML(){
-  const cl=document.documentElement.cloneNode(true);
-  cl.querySelectorAll('.edit-fab,.edit-toolbar,.edit-banner,.save-toast,.modal-overlay,#fi,.card-actions,.add-btn,.day-header-actions,.rating-editor,.add-tag-btn,.drag-handle,.carousel-add-photo,.carousel-del-photo').forEach(e=>e.remove());
-  cl.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));
-  cl.querySelectorAll('[data-editable]').forEach(e=>e.removeAttribute('data-editable'));
-  cl.querySelectorAll('[draggable]').forEach(e=>e.removeAttribute('draggable'));
-  cl.querySelectorAll('[data-bound],[data-db],[data-init]').forEach(e=>{e.removeAttribute('data-bound');e.removeAttribute('data-db');e.removeAttribute('data-init');});
-  cl.querySelectorAll('.tag,.carousel').forEach(e=>e.removeAttribute('onclick'));
-  cl.querySelector('body').classList.remove('edit-mode');
-  cl.querySelectorAll('script').forEach(e=>e.remove());
-
-  // Clean carousel: add simple JS for arrows/dots
-  const s=document.createElement('script');
-  s.textContent=`
-const ob=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ob.unobserve(e.target)}})},{threshold:.15});
-document.querySelectorAll('.timeline-entry').forEach(e=>ob.observe(e));
-const nav=document.getElementById('dayNav'),hs=document.querySelectorAll('.day-header');
-function u(){let c='';hs.forEach(h=>{if(scrollY>=h.offsetTop-120)c=h.id});nav.querySelectorAll('a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+c));nav.classList.toggle('scrolled',scrollY>100)}
-addEventListener('scroll',u,{passive:true});u();
-document.querySelectorAll('.carousel').forEach(c=>{
-  const prev=c.querySelector('.carousel-prev'),next=c.querySelector('.carousel-next');
-  const dots=c.querySelectorAll('.carousel-dot');
-  let idx=0;const cnt=c.querySelectorAll('.carousel-slide').length;
-  function go(i){idx=i;if(idx<0)idx=cnt-1;if(idx>=cnt)idx=0;c.querySelector('.carousel-track').style.transform='translateX(-'+idx*100+'%)';dots.forEach((d,j)=>d.classList.toggle('active',j===idx));}
-  if(prev)prev.onclick=()=>go(idx-1);
-  if(next)next.onclick=()=>go(idx+1);
-  dots.forEach((d,i)=>d.onclick=()=>go(i));
-});`;
-  cl.querySelector('body').appendChild(s);
-
-  const style=cl.querySelector('style');
-  if(style){const out=[];style.textContent.split('\\n').forEach(l=>{if(/edit-|\.card-actions|\.add-btn|\.add-tag|\.day-header-actions|\.rating-editor|\.modal|\.save-toast|\.btn-del|\.drag-handle|dragging|drag-over|carousel-add|carousel-del/.test(l))return;out.push(l);});style.textContent=out.join('\\n');}
-
-  const blob=new Blob(['<!DOCTYPE html>\\n'+cl.outerHTML],{type:'text/html'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='index.html';a.click();URL.revokeObjectURL(a.href);
-  toast('已匯出乾淨的 HTML');
-}
-
-function toast(m){const t=document.getElementById('toast');t.textContent='✓ '+m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
-
-/* ══════════════════════════════════════
-   SCROLL OBSERVER
-   ══════════════════════════════════════ */
-const observer=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})},{threshold:.15});
-function obs(el){observer.observe(el)}
-function initObs(){document.querySelectorAll('.timeline-entry').forEach(e=>observer.observe(e))}
-initObs();buildNav();initAllCarousels();
-</script>
-</body>
-</html>
+<script>var ob=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("visible");ob.unobserve(e.target);}});},{threshold:.15});
+document.querySelectorAll(".timeline-entry").forEach(function(e){ob.observe(e);});
+var nav=document.getElementById("dayNav"),hs=document.querySelectorAll(".day-header");
+function u(){var c="";hs.forEach(function(h){if(scrollY>=h.offsetTop-120)c=h.id;});nav.querySelectorAll("a").forEach(function(a){a.classList.toggle("active",a.getAttribute("href")==="#"+c);});nav.classList.toggle("scrolled",scrollY>100);}
+addEventListener("scroll",u,{passive:true});u();
+document.querySelectorAll(".carousel").forEach(function(car){
+  var prev=car.querySelector(".carousel-prev"),next=car.querySelector(".carousel-next");
+  var dots=car.querySelectorAll(".carousel-dot");
+  var idx=0,cnt=car.querySelectorAll(".carousel-slide").length;
+  function go(i){idx=i;if(idx<0)idx=cnt-1;if(idx>=cnt)idx=0;car.querySelector(".carousel-track").style.transform="translateX(-"+idx*100+"%)";dots.forEach(function(d,j){d.classList.toggle("active",j===idx);});}
+  if(prev)prev.onclick=function(){go(idx-1);};
+  if(next)next.onclick=function(){go(idx+1);};
+  dots.forEach(function(d,i){d.onclick=function(){go(i);};});
+});</script></body></html>
